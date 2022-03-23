@@ -56,16 +56,16 @@ public final class RangeTalk extends JavaPlugin implements TabExecutor, Listener
 
     public static final String CMD_RT_SHOUT = "erodrangetalk-shout";
 
-    public boolean isFunctionEnabled() {
+    synchronized public boolean isFunctionEnabled() {
         return config.getBoolean(KEY_ENABLED);
     }
 
-    public void functionEnable() {
+    synchronized public void functionEnable() {
         config.set(KEY_ENABLED, true);
         logger.info("Plugin functional enabled.");
     }
 
-    public void functionDisable() {
+    synchronized public void functionDisable() {
         config.set(KEY_ENABLED, false);
         logger.info("Plugin functional disabled.");
     }
@@ -103,18 +103,18 @@ public final class RangeTalk extends JavaPlugin implements TabExecutor, Listener
         logger.info("Disabled " + descrp.getName() + " v" + descrp.getVersion() + ".");
     }
 
-    public double getRange(@NotNull Player player) {
+    synchronized public double getRange(@NotNull Player player) {
         if (!config.contains(KEY_PLAYERS + player.getName() + KEY_PLAYERS_RANGE)) {
             config.set(KEY_PLAYERS + player.getName() + KEY_PLAYERS_RANGE, config.getDouble(KEY_DEFAULT_RANGE));
         }
         return config.getDouble(KEY_PLAYERS + player.getName() + KEY_PLAYERS_RANGE, config.getDouble(KEY_DEFAULT_RANGE));
     }
 
-    public void setRange(@NotNull Player player, double range) {
+    synchronized public void setRange(@NotNull Player player, double range) {
         config.set(KEY_PLAYERS + player.getName() + KEY_PLAYERS_RANGE, range);
     }
 
-    public boolean checkRange(@NotNull Player player1, @NotNull Player player2) {
+    synchronized public boolean checkRange(@NotNull Player player1, @NotNull Player player2) {
         var r = this.getRange(player1);
         var loc1 = player1.getLocation();
         var loc2 = player2.getLocation();
@@ -125,15 +125,15 @@ public final class RangeTalk extends JavaPlugin implements TabExecutor, Listener
         return Objects.equals(loc1.getWorld(), loc2.getWorld()) && (sqrX + sqrY + sqrZ <= sqrR);
     }
 
-    public void setShout(@NotNull Player player, boolean canShout) {
+    synchronized public void setShout(@NotNull Player player, boolean canShout) {
         config.set(KEY_PLAYERS + player.getName() + KEY_PLAYERS_CAN_SHOUT, canShout);
     }
 
-    public boolean checkShout(@NotNull Player player) {
+    synchronized public boolean checkShout(@NotNull Player player) {
         return config.getBoolean(KEY_PLAYERS + player.getName() + KEY_PLAYERS_CAN_SHOUT);
     }
 
-    public void doShout(@NotNull Player player, String shout) {
+    synchronized public void doShout(@NotNull Player player, String shout) {
         if (isFunctionEnabled() && checkShout(player)) {
             var name = (!player.getDisplayName().equals("") ? player.getDisplayName() : player.getName());
             player.getServer().broadcastMessage( "<" + name + "> §6§l" + shout + "§r");

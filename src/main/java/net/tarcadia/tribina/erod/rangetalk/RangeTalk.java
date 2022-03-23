@@ -224,16 +224,11 @@ public final class RangeTalk extends JavaPlugin implements TabExecutor, Listener
             if ((args.length == 1) && sender.isOp() && !this.isFunctionEnabled()) ret.add(CMD_RT_ARG_ENABLE);
             if ((args.length == 1) && sender.isOp() && this.isFunctionEnabled()) ret.add(CMD_RT_ARG_DISABLE);
             if ((args.length == 1) && sender.isOp()) ret.add(CMD_RT_ARG_SET);
-            if ((args.length == 2) && (args[0].equals(CMD_RT_ARG_SET)) && sender.isOp()) {
-                List<String> playerLst = new LinkedList<>();
-                for (var p : this.getServer().getOnlinePlayers()) playerLst.add(p.getName());
-                ret.addAll(playerLst);
-            }
+            if ((args.length == 2) && (args[0].equals(CMD_RT_ARG_SET)) && sender.isOp()) ret.add("<player>");
             if ((args.length == 3) && sender.isOp()) ret.add(CMD_RT_ARG_SET_RANGE);
             if ((args.length == 3) && sender.isOp()) ret.add(CMD_RT_ARG_SET_CAN_SHOUT);
             if ((args.length == 3) && sender.isOp()) ret.add(CMD_RT_ARG_SET_CANNOT_SHOUT);
-            if ((args.length == 4) && (args[0].equals(CMD_RT_ARG_SET)) && (args[2].equals(CMD_RT_ARG_SET_RANGE)) && sender.isOp())
-                ret.add("<number>");
+            if ((args.length == 4) && (args[0].equals(CMD_RT_ARG_SET)) && (args[2].equals(CMD_RT_ARG_SET_RANGE)) && sender.isOp()) ret.add("<number>");
             return ret;
         } else if (command.getName().equals(CMD_RT_SHOUT)) {
             List<String> ret = new LinkedList<>();
